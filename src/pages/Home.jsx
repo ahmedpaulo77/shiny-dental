@@ -1,11 +1,16 @@
- import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useCountUp }     from "../hooks/useCountUp";
 import {
   ArrowLeft, CheckCircle, Star,
   Trophy, Cpu, Heart, BadgeDollarSign,
-  Phone, PlayCircle, ImageIcon, CalendarDays
+  Phone, PlayCircle, CalendarDays
 } from "lucide-react";
+
+// استيراد الصور من المسار المطلوب لضمان ظهورها بعد الـ Deploy
+import heroClinicImg from "../images/hero-clinic.jpg";
+import aboutDoctorImg from "../images/about-doctor.jpg";
+
 import "./Home.css";
 
 const services = [
@@ -85,8 +90,6 @@ export default function Home() {
 
       {/* ══ HERO ══ */}
       <section className="hero">
-        <div className="hero-noise" />
-        <div className="hero-glow" />
         <div className="container hero-inner">
 
           <div ref={heroRef} className={`hero-content reveal fade-up${heroVisible ? " is-visible" : ""}`}>
@@ -116,13 +119,11 @@ export default function Home() {
             </div>
           </div>
 
+          {/* الجزء اليمين اللي فيه صورة العيادة الحقيقية */}
           <div className="hero-right">
             <div className="hero-badge-wrap">
               <div className="hero-img-frame">
-                <div className="hero-img-inner">
-                  <ImageIcon size={56} color="#c9a96e" strokeWidth={1.2} />
-                  <span>صورة العيادة</span>
-                </div>
+                <img src={heroClinicImg} alt="Shiny Dental Clinic" className="hero-main-img" />
               </div>
               <div className="hero-badge top">
                 <CheckCircle size={16} color="#c9a96e" />
@@ -210,18 +211,24 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="why-cards reveal slide-left">
-            {whyCards.map(({ Icon, title, desc }, i) => (
-              <div key={i} className="why-card">
-                <div className="wc-icon">
-                  <Icon size={26} color="#c9a96e" strokeWidth={1.8} />
+          {/* إضافة صورة الطبيب بجانب مميزات العيادة */}
+          <div className="why-right-wrap reveal slide-left">
+            <div className="why-img-frame">
+              <img src={aboutDoctorImg} alt="د. أحمد إسلام" className="why-doctor-img" />
+            </div>
+            <div className="why-cards">
+              {whyCards.map(({ Icon, title, desc }, i) => (
+                <div key={i} className="why-card">
+                  <div className="wc-icon">
+                    <Icon size={26} color="#c9a96e" strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <h4>{title}</h4>
+                    <p>{desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4>{title}</h4>
-                  <p>{desc}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
         </div>
@@ -236,7 +243,7 @@ export default function Home() {
           </div>
           <div className="testi-grid">
             {[
-              { name:"محمد السيد",    city:"بنها",       text:"تجربة استثنائية. الدكتور أحمد شرح لي كل تفصيلة بصبر واحترافية عالية. النتيجة فاقت توقعاتي تماماً." },
+              { name:"محمد السيد",    city:"بنها",      text:"تجربة استثنائية. الدكتور أحمد شرح لي كل تفصيلة بصبر واحترافية عالية. النتيجة فاقت توقعاتي تماماً." },
               { name:"نورا إبراهيم",  city:"القناطر",    text:"عملت قشور بورسلان والنتيجة خيالية. أصدقائي مش مصدقين إنها أسناني الطبيعية. أنصح الجميع!" },
               { name:"كريم عبدالله",  city:"شبين الكوم", text:"أفضل عيادة في المنطقة. نظيفة ومريحة والفريق الطبي محترم جداً. هرجع دايماً وهنصح الكل." },
             ].map((t, i) => (

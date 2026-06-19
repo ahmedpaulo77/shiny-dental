@@ -7,21 +7,29 @@
 }
 
 :root {
-  --bg-dark:      #07090f;
-  --bg-card:      #0e1220;
-  --bg-section:   #0b0f1a;
-  --border-color: #1c2540;
-  --text-main:    #eef2ff;
-  --text-muted:   #7080a0;
-  --primary:      #c9a96e;
-  --primary-light:#e2c98a;
-  --primary-dark: #a07840;
-  --accent:       #2d6bc4;
-  --radius:       14px;
-  --transition:   0.3s ease;
-  --shadow-sm:    0 4px 16px rgba(0,0,0,0.35);
-  --shadow-md:    0 8px 32px rgba(0,0,0,0.5);
-  --shadow-gold:  0 8px 32px rgba(201,169,110,0.15);
+  /* 🎨 لوحة الألوان الفاتحة والملكية الجديدة للموقع */
+  --bg-dark:       #f8fafc; /* أبيض ثلجي مريح جداً للعين كخلفية أساسية للموقع */
+  --bg-card:       #ffffff; /* أبيض ناصع للكروت والأقسام عشان تظهر وتبرز */
+  --bg-section:    #f1f5f9; /* رمادي فاتح جداً للتبديل بين الأقسام */
+  --border-color:  #e2e8f0; /* حدود ناعمة وخفيفة جداً */
+  
+  /* ✍️ ألوان النصوص لقراءة مريحة */
+  --text-main:     #0f172a; /* كحلي داكن مقارب للأسود عشان الكلام يبان بوضوح */
+  --text-muted:    #64748b; /* رمادي متوسط للنصوص الفرعية والوصف */
+  
+  /* ✨ درجات الذهبي الفخم والملكي */
+  --primary:       #c9a96e; /* الذهبي الأساسي */
+  --primary-light: #f8f4eb; /* خلفية ذهبية خفيفة جداً للمسات الديكور */
+  --primary-dark:  #a07840; /* ذهبي غامق للأزرار والنصوص الهامة */
+  --accent:        #0284c7; /* لمسة أزرق طبي مهدئ للأيقونات أو الروابط */
+  
+  --radius:        14px;
+  --transition:    0.3s ease;
+  
+  /* 👤 ظلال ناعمة جداً تناسب الخلفيات الفاتحة وتدي عمق احترافي */
+  --shadow-sm:     0 4px 16px rgba(15, 23, 42, 0.04);
+  --shadow-md:     0 8px 32px rgba(15, 23, 42, 0.06);
+  --shadow-gold:   0 8px 32px rgba(201, 169, 110, 0.12);
 }
 
 html {
@@ -74,22 +82,22 @@ a {
 }
 .btn-primary {
   background: linear-gradient(135deg, #c9a96e, #a07840);
-  color: #07090f;
-  box-shadow: 0 4px 20px rgba(201,169,110,0.35);
+  color: #ffffff; /* كتابة بيضاء فوق الزر الذهبي لمظهر أكثر فخامة */
+  box-shadow: 0 4px 20px rgba(201,169,110,0.25);
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, #e2c98a, #c9a96e);
+  background: linear-gradient(135deg, #dbbfa7, #c9a96e);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(201,169,110,0.45);
+  box-shadow: 0 8px 28px rgba(201,169,110,0.35);
 }
 .btn-outline {
   background: transparent;
-  color: var(--primary);
+  color: var(--primary-dark);
   border: 1.5px solid var(--primary);
 }
 .btn-outline:hover {
   background: var(--primary);
-  color: #07090f;
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -119,9 +127,9 @@ a {
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--primary);
-  background: rgba(201,169,110,0.08);
-  border: 1px solid rgba(201,169,110,0.18);
+  color: var(--primary-dark);
+  background: rgba(201,169,110,0.1);
+  border: 1px solid rgba(201,169,110,0.25);
   padding: 5px 18px;
   border-radius: 50px;
 }
@@ -142,8 +150,8 @@ a {
 
 /* ── Page Header ── */
 .page-header {
-  padding: 130px 0 70px;
-  background: linear-gradient(160deg, #0b0f1a 0%, #0e1530 60%, #0a0d15 100%);
+  padding: 140px 0 80px;
+  background: linear-gradient(160deg, #ffffff 0%, #f1f5f9 100%);
   border-bottom: 1px solid var(--border-color);
   text-align: center;
   position: relative;
@@ -153,7 +161,7 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 120%, rgba(201,169,110,0.07) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 120%, rgba(201,169,110,0.05) 0%, transparent 60%);
   pointer-events: none;
 }
 .page-header .eyebrow {
@@ -177,8 +185,9 @@ a {
 
 /* ── CTA Banner ── */
 .cta-banner {
-  background: linear-gradient(135deg, #0e1530 0%, #131b35 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
   border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   padding: 90px 0;
 }
 .cta-inner { text-align: center; }
@@ -205,9 +214,9 @@ a {
   gap: 8px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--primary);
-  background: rgba(201,169,110,0.08);
-  border: 1px solid rgba(201,169,110,0.18);
+  color: var(--primary-dark);
+  background: rgba(201,169,110,0.1);
+  border: 1px solid rgba(201,169,110,0.25);
   padding: 5px 18px;
   border-radius: 50px;
   margin-bottom: 20px;
@@ -216,7 +225,7 @@ a {
 
 /* ── Footer ── */
 .footer {
-  background: #04060b;
+  background: #ffffff;
   border-top: 1px solid var(--border-color);
   padding: 60px 0 30px;
 }
@@ -229,7 +238,7 @@ a {
 .footer-logo {
   font-size: 22px;
   font-weight: 900;
-  color: var(--primary);
+  color: var(--primary-dark);
   margin-bottom: 12px;
 }
 .footer h4 {
@@ -253,7 +262,7 @@ a {
   transition: color 0.2s;
   text-decoration: none;
 }
-.footer ul a:hover { color: var(--primary); }
+.footer ul a:hover { color: var(--primary-dark); }
 .footer-bottom {
   border-top: 1px solid var(--border-color);
   padding-top: 24px;
@@ -283,8 +292,8 @@ a {
 .gf-btn.active,
 .gf-btn:hover {
   border-color: var(--primary);
-  color: var(--primary);
-  background: rgba(201,169,110,0.08);
+  color: var(--primary-dark);
+  background: rgba(201,169,110,0.1);
 }
 
 /* ── Utilities ── */
@@ -292,13 +301,13 @@ a {
 .section-cta { text-align: center; margin-top: 48px; }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar           { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 /* ── Selection ── */
 ::selection {
-  background: rgba(201,169,110,0.25);
+  background: rgba(201,169,110,0.2);
   color: var(--text-main);
 }
