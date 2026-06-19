@@ -176,3 +176,20 @@
     display: block;
   }
 }
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-gold);
+}
