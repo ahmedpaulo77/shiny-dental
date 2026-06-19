@@ -1,0 +1,104 @@
+.faq-section { background: var(--bg-dark); }
+.faq-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  align-items: flex-start;
+}
+.faq-content { display: flex; flex-direction: column; gap: 36px; }
+
+.faq-category {}
+.faq-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.faq-cat-icon { font-size: 22px; }
+.faq-cat-head h3 { font-size: 18px; font-weight: 800; }
+
+.faq-list {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.faq-item {
+  border-bottom: 0.5px solid var(--border-color);
+}
+.faq-item:last-child { border-bottom: none; }
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: right;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.faq-question:hover { background: rgba(47,174,107,0.04); }
+.faq-item.open .faq-question { color: var(--primary); background: rgba(47,174,107,0.06); }
+
+.faq-chevron {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  stroke: var(--text-muted);
+}
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  stroke: var(--primary);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-answer {
+  max-height: 300px;
+}
+.faq-answer p {
+  padding: 0 22px 18px;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.85;
+}
+
+/* Sidebar */
+.faq-sidebar {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.faq-cta-box, .faq-booking-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 26px 22px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.faq-cta-box:hover, .faq-booking-box:hover { border-color: rgba(47,174,107,0.3); }
+.fcb-icon, .fbb-icon { font-size: 36px; }
+.faq-cta-box h4, .faq-booking-box h4 { font-size: 16px; font-weight: 800; }
+.faq-cta-box p, .faq-booking-box p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+.faq-cta-box .btn, .faq-booking-box .btn { width: 100%; justify-content: center; }
+
+@media (max-width: 860px) {
+  .faq-layout { grid-template-columns: 1fr; }
+  .faq-sidebar { position: static; }
+}
