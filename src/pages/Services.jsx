@@ -1,213 +1,168 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  ChevronDown, CheckCircle, CalendarDays,
+  Sparkles, Zap, Star, Shield, Smile, HeartPulse
+} from "lucide-react";
 import "./Services.css";
 
 const services = [
   {
     id: "whitening",
-    icon: "✦",
-    emoji: "🦷",
+    Icon: Sparkles,
     title: "تبييض الأسنان",
-    tagline: "ابتسامة مشرقة في جلسة واحدة",
-    desc: "نستخدم أحدث تقنيات تبييض الأسنان الآمنة والفعّالة التي تمنحك أسناناً أكثر بياضاً وبريقاً دون التأثير على مينا أسنانك.",
-    features: ["تبييض ليزر متقدم", "تبييض منزلي تحت الإشراف", "نتائج تدوم ٢-٣ سنوات", "آمن تماماً على المينا"],
-    duration: "٦٠-٩٠ دقيقة",
-    sessions: "جلسة واحدة",
-    color: "#2fae6b",
+    subtitle: "ابتسامة مشرقة في جلسة واحدة",
+    desc: "نستخدم أحدث تقنيات التبييض بالليزر والجل المتطور لإزالة التصبغات والاصفرار، والحصول على أسنان أكثر بياضاً بشكل ملحوظ دون ألم أو حساسية.",
+    features: [
+      "تبييض بالليزر في جلسة واحدة",
+      "تبييض بالجل المنزلي مع صواني مخصصة",
+      "آمن تماماً على مينا الأسنان",
+      "نتائج تدوم من ١ إلى ٣ سنوات",
+      "مناسب لجميع أنواع الأسنان",
+    ],
   },
   {
     id: "implants",
-    icon: "⬡",
-    emoji: "🔩",
+    Icon: Shield,
     title: "زراعة الأسنان",
-    tagline: "بديل دائم يشبه أسنانك الطبيعية",
-    desc: "زراعة الأسنان هي الحل الأمثل للأسنان المفقودة. نستخدم غرسات تيتانيوم عالية الجودة تندمج مع عظم الفك لتعطيك أسنان دائمة وطبيعية المظهر.",
-    features: ["غرسات تيتانيوم معتمدة", "نسبة نجاح ٩٨٪", "تخدير موضعي كامل", "ضمان لمدة ٥ سنوات"],
-    duration: "٩٠-١٢٠ دقيقة",
-    sessions: "٢-٣ جلسات",
-    color: "#4a9eff",
+    subtitle: "الحل الدائم لفقدان الأسنان",
+    desc: "زراعة أسنان تيتانيوم عالية الجودة تندمج مع عظام الفك لتوفير دعامة قوية ودائمة تُحاكي الأسنان الطبيعية في الوظيفة والمظهر.",
+    features: [
+      "زراعة فورية أو تقليدية حسب الحالة",
+      "مواد تيتانيوم معتمدة دولياً",
+      "ضمان على الزراعة",
+      "متابعة ما بعد الزراعة مجاناً",
+      "إمكانية زراعة أسنان متعددة في نفس الجلسة",
+    ],
   },
   {
     id: "orthodontics",
-    icon: "◈",
-    emoji: "😁",
+    Icon: Smile,
     title: "تقويم الأسنان",
-    tagline: "أسنان مستقيمة وابتسامة مثالية",
-    desc: "نقدم خيارات متعددة للتقويم تشمل التقويم المعدني التقليدي والتقويم الشفاف الحديث، مع خطة علاجية مخصصة لكل حالة.",
-    features: ["تقويم شفاف Invisalign", "تقويم معدني متطور", "تقويم خلفي غير مرئي", "متابعة شهرية دقيقة"],
-    duration: "٤٥-٦٠ دقيقة",
-    sessions: "١٢-٢٤ شهر",
-    color: "#9b59b6",
+    subtitle: "أسنان مستقيمة وابتسامة جميلة",
+    desc: "نقدم خيارات متعددة للتقويم تناسب كل عمر وكل حالة، سواء كنت تفضل التقويم التقليدي أو الشفاف الحديث.",
+    features: [
+      "تقويم شفاف (Invisalign) غير مرئي",
+      "تقويم معدني وسيراميك تقليدي",
+      "تقويم لساني خلف الأسنان",
+      "خطة علاجية رقمية قبل البدء",
+      "مرونة في مواعيد المتابعة",
+    ],
   },
   {
     id: "veneers",
-    icon: "◇",
-    emoji: "💎",
+    Icon: Star,
     title: "قشور البورسلان",
-    tagline: "ابتسامة هوليوود في أيام",
-    desc: "قشور البورسلان الرفيعة هي الطريقة الأسرع والأجمل لتحويل ابتسامتك. نصمم القشور لتتناسب مع ملامح وجهك بشكل طبيعي تماماً.",
-    features: ["تصميم رقمي للابتسامة", "قشور رفيعة فائقة", "ألوان طبيعية تماماً", "تدوم ١٠-١٥ سنة"],
-    duration: "٩٠-١٢٠ دقيقة",
-    sessions: "٢-٣ جلسات",
-    color: "#e67e22",
+    subtitle: "ابتسامة هوليوود في أسبوع واحد",
+    desc: "قشور بورسلان رفيعة للغاية تُلصق على سطح الأسنان لتغيير لونها وشكلها وحجمها في زيارتين فقط، مع نتائج طبيعية وجمالية استثنائية.",
+    features: [
+      "قشور فاخرة بسُمك 0.3 ملم فقط",
+      "مقاومة للتصبغ والتغير اللوني",
+      "تدوم من ١٠ إلى ١٥ عاماً",
+      "تصميم رقمي للابتسامة قبل التنفيذ",
+      "حالات الطوارئ مغطاة بالضمان",
+    ],
   },
   {
     id: "rootcanal",
-    icon: "⬤",
-    emoji: "🛡️",
-    title: "علاج قناة العصب",
-    tagline: "إنقاذ أسنانك من الألم والفقدان",
-    desc: "علاج العصب الحديث أصبح غير مؤلم تقريباً. نستخدم تقنيات الروتاري والميكروسكوب لضمان نظافة شاملة وتجنب تكرار العدوى.",
-    features: ["تخدير فعّال تماماً", "أجهزة روتاري حديثة", "إشعاع رقمي دقيق", "تاج تغطية بعد العلاج"],
-    duration: "٦٠-٩٠ دقيقة",
-    sessions: "١-٣ جلسات",
-    color: "#e74c3c",
+    Icon: HeartPulse,
+    title: "علاج العصب",
+    subtitle: "إنقاذ أسنانك بدون ألم",
+    desc: "بفضل التخدير الحديث والتقنيات الدقيقة، أصبح علاج العصب إجراءً مريحاً تماماً يُنقذ أسنانك من الفقدان ويُريحك من الألم الشديد.",
+    features: [
+      "تخدير كامل بدون أي ألم",
+      "ميكروسكوب دقيق للرؤية الكاملة",
+      "علاج في جلسة أو جلستين",
+      "تاج بورسلان بعد العلاج مجاناً",
+      "ضمان ٢ سنة على العلاج",
+    ],
   },
   {
     id: "pediatric",
-    icon: "◯",
-    emoji: "🌟",
+    Icon: Zap,
     title: "أسنان الأطفال",
-    tagline: "بيئة آمنة ومحببة لطفلك",
-    desc: "نخصص بيئة ودية وآمنة للأطفال مع فريق مدرب على التعامل مع صغار السن. نركز على الوقاية ومنع تسوس الأطفال منذ الصغر.",
-    features: ["بيئة ودية للأطفال", "تخدير آمن للصغار", "علاج التسوس المبكر", "توعية الأهل بالنظافة"],
-    duration: "٣٠-٦٠ دقيقة",
-    sessions: "حسب الحالة",
-    color: "#f39c12",
-  },
-  {
-    id: "cleaning",
-    icon: "✿",
-    emoji: "✨",
-    title: "تنظيف الأسنان",
-    tagline: "أسنان نظيفة وصحة لثة مثالية",
-    desc: "التنظيف الدوري ضروري للحفاظ على صحة أسنانك ولثتك. نزيل الجير والبكتيريا بأدوات متطورة مع تلميع كامل للأسنان.",
-    features: ["إزالة الجير بالموجات الصوتية", "تلميع الأسنان", "فحص اللثة", "نصائح عناية منزلية"],
-    duration: "٤٥-٦٠ دقيقة",
-    sessions: "كل ٦ أشهر",
-    color: "#1abc9c",
-  },
-  {
-    id: "crowns",
-    icon: "♛",
-    emoji: "👑",
-    title: "التيجان والجسور",
-    tagline: "ترميم وجمال في آنٍ واحد",
-    desc: "التيجان والجسور تُعيد للأسنان التالفة شكلها ووظيفتها الكاملة. نستخدم خامات بورسلان عالية الجودة للحصول على مظهر طبيعي جميل.",
-    features: ["تيجان زركون عالية الجودة", "جسور ثابتة ومتحركة", "تطابق تام مع لون أسنانك", "نسب جودة عالية"],
-    duration: "٦٠-٩٠ دقيقة",
-    sessions: "٢-٣ جلسات",
-    color: "#8e44ad",
+    subtitle: "بداية صحية لابتسامة طفلك",
+    desc: "بيئة ودية ومريحة مصممة خصيصاً للأطفال، حيث نُحوّل زيارة طبيب الأسنان إلى تجربة ممتعة تُرسّخ عادات صحية لمدى الحياة.",
+    features: [
+      "فحص أسنان الأطفال منذ السنة الأولى",
+      "تلوين وحشوات مُلوّنة للأطفال",
+      "طواقم متدربة على التعامل مع الأطفال",
+      "أجهزة صغيرة الحجم مخصصة للأطفال",
+      "برامج تثقيفية لنظافة الفم",
+    ],
   },
 ];
 
-function ServiceCard({ s, index }) {
-  const [ref, visible] = useScrollReveal();
-  return (
-    <section
-      id={s.id}
-      ref={ref}
-      className={`service-detail-card reveal fade-up${visible ? " is-visible" : ""}`}
-      style={{ transitionDelay: `${index * 60}ms` }}
-    >
-      <div className="sdc-header">
-        <div className="sdc-icon" style={{ background: `${s.color}18`, borderColor: `${s.color}40` }}>
-          <span style={{ color: s.color }}>{s.icon}</span>
-        </div>
-        <div className="sdc-title-wrap">
-          <span className="sdc-emoji">{s.emoji}</span>
-          <div>
-            <h2>{s.title}</h2>
-            <p className="sdc-tagline">{s.tagline}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="sdc-body">
-        <div className="sdc-desc">
-          <p>{s.desc}</p>
-          <div className="sdc-meta">
-            <div className="sdc-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span>المدة: {s.duration}</span>
-            </div>
-            <div className="sdc-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-              <span>الجلسات: {s.sessions}</span>
-            </div>
-          </div>
-        </div>
-        <ul className="sdc-features">
-          {s.features.map((f, i) => (
-            <li key={i}>
-              <span className="sdc-check" style={{ background: `${s.color}20`, color: s.color }}>✓</span>
-              {f}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="sdc-footer">
-        <Link to="/booking" className="btn btn-primary">احجز هذه الخدمة</Link>
-      </div>
-    </section>
-  );
-}
-
-function Services() {
-  const { hash } = useLocation();
-
-  useEffect(() => {
-    if (hash) {
-      const el = document.querySelector(hash);
-      if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-    }
-  }, [hash]);
+export default function Services() {
+  const [open, setOpen] = useState(null);
 
   return (
     <main className="services-page">
       <div className="page-header">
         <div className="container">
           <span className="eyebrow">خدماتنا</span>
-          <h1>كل ما تحتاجه لأسنان مثالية</h1>
-          <p>طيف واسع من خدمات طب الأسنان الحديثة بأيدي متخصصة وبأعلى معايير الجودة</p>
+          <h1>خدمات طب الأسنان المتكاملة</h1>
+          <p>كل ما تحتاجه لأسنان صحية وابتسامة جميلة تحت سقف واحد</p>
         </div>
       </div>
 
-      {/* Quick nav */}
-      <div className="services-quick-nav">
+      <section className="srv-list">
         <div className="container">
-          <div className="sqn-scroll">
-            {services.map((s) => (
-              <a key={s.id} href={`#${s.id}`} className="sqn-btn">
-                {s.emoji} {s.title}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
+          {services.map((s, i) => (
+            <div
+              key={s.id}
+              id={s.id}
+              className={`srv-item${open === s.id ? " open" : ""}`}
+              style={{ animationDelay: `${i * 60}ms` }}
+            >
+              <button className="srv-header" onClick={() => setOpen(open === s.id ? null : s.id)}>
+                <div className="srv-header-left">
+                  <div className="srv-icon-wrap">
+                    <s.Icon size={22} color="#c9a96e" strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <h3>{s.title}</h3>
+                    <p className="srv-subtitle">{s.subtitle}</p>
+                  </div>
+                </div>
+                <ChevronDown size={20} className="srv-chevron" />
+              </button>
 
-      {/* Cards */}
-      <section className="services-list">
-        <div className="container services-col">
-          {services.map((s, i) => <ServiceCard key={s.id} s={s} index={i} />)}
+              {open === s.id && (
+                <div className="srv-body">
+                  <p className="srv-desc">{s.desc}</p>
+                  <div className="srv-features">
+                    <h4>ما يشمله العلاج:</h4>
+                    <ul>
+                      {s.features.map((f, fi) => (
+                        <li key={fi}>
+                          <CheckCircle size={16} color="#c9a96e" />
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <Link to="/booking" className="btn btn-primary srv-cta">
+                    <CalendarDays size={16} />
+                    احجز موعد لهذه الخدمة
+                  </Link>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA */}
       <section className="cta-banner">
         <div className="container cta-inner reveal scale-in">
-          <h2>مش عارف إيه الخدمة المناسبة؟</h2>
-          <p>تعال استشارة مجانية ونحدد معاك أفضل خطة علاجية</p>
+          <h2>مش عارف تختار؟ استشارة مجانية</h2>
+          <p>د. أحمد إسلام هيساعدك تحدد الخطة المثالية لأسنانك بدون أي التزام</p>
           <div className="cta-actions">
-            <Link to="/booking" className="btn btn-primary">احجز استشارة مجانية</Link>
-            <Link to="/contact" className="btn btn-outline">تحدث معنا أولاً</Link>
+            <Link to="/booking" className="btn btn-primary">احجز الآن</Link>
+            <a href="tel:01100690997" className="btn btn-outline ltr">01100690997</a>
           </div>
         </div>
       </section>
     </main>
   );
 }
-
-export default Services;

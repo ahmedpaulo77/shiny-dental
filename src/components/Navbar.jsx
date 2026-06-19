@@ -1,69 +1,93 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { Phone, Menu, X, Stethoscope } from "lucide-react";
 import "./Navbar.css";
 
 const links = [
-  { to: "/", label: "الرئيسية" },
-  { to: "/about", label: "عن الدكتور" },
-  { to: "/services", label: "الخدمات" },
-  { to: "/gallery", label: "قبل وبعد" },
-  { to: "/testimonials", label: "آراء المرضى" },
-  { to: "/faq", label: "الأسئلة الشائعة" },
-  { to: "/booking", label: "احجز موعد" },
-  { to: "/contact", label: "تواصل معنا" },
+  { to: "/",             label: "الرئيسية" },
+  { to: "/about",       label: "من نحن" },
+  { to: "/services",    label: "الخدمات" },
+  { to: "/gallery",     label: "معرض الأعمال" },
+  { to: "/testimonials",label: "آراء المرضى" },
+  { to: "/faq",         label: "الأسئلة الشائعة" },
+  { to: "/contact",     label: "تواصل معنا" },
 ];
 
-function Navbar() {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
 
+  // تفعيل تأثير السكرول
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const fn = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const linkClass = ({ isActive }) => (isActive ? "active" : "");
+  // غلق قائمة الموبايل تلقائياً عند الانتقال لصفحة أخرى
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
-    <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
-      <div className="container nav-inner">
-        <NavLink to="/" className="nav-logo" onClick={() => setOpen(false)}>
-          <span className="logo-icon">✦</span>
-          <span className="logo-text">
-            <span className="logo-ar">شايني دنتال</span>
-            <span className="logo-en ltr">SHINY DENTAL</span>
-          </span>
-        </NavLink>
+    <>
+      <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
+        <div className="nav-inner container">
 
-        <ul className={`nav-links${open ? " open" : ""}`}>
-          {links.map((l) => (
-            <li key={l.to}>
-              <NavLink to={l.to} className={linkClass} onClick={() => setOpen(false)}
-                end={l.to === "/"}>
-                {l.label}
-              </NavLink>
-            </li>
-          ))}
-          <li>
-            <NavLink to="/booking" className="nav-cta" onClick={() => setOpen(false)}>
-              احجز الآن
-            </NavLink>
-          </li>
-        </ul>
+          {/* Logo */}
+          <Link to="/" className="nav-logo">
+            <div className="logo-icon">
+              <Stethoscope size={20} color="#07090f" strokeWidth={2.5} />
+            </div>
+            <div>
+              <div className="logo-name">Shiny Dental</div>
+              <div className="logo-sub">د. أحمد إسلام</div>
+            </div>
+          </Link>
 
-        <button
-          className={`nav-toggle${open ? " is-open" : ""}`}
-          aria-label="فتح القائمة"
-          onClick={() => setOpen(!open)}
-        >
-          <span /><span /><span />
-        </button>
-      </div>
+          {/* Desktop links */}
+          <ul className="nav-links">
+            {links.map(l => (
+              <li key={l.to}>
+                <Link to={l.to} className={`nav-link${pathname === l.to ? " active" : ""}`}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-      {open && <div className="nav-overlay" onClick={() => setOpen(false)} />}
-    </nav>
+          {/* CTA */}
+          <a href="tel:01100690997" className="nav-cta">
+            <Phone size={15} />
+            <span>01100690997</span>
+          </a>
+
+          {/* Hamburger */}
+          <button className="nav-toggle" onClick={() => setOpen(o => !o)} aria-label="القائمة">
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+        </div>
+      </nav>
+
+      {/* Mobile menu */}
+      {open && (
+        <div className="mobile-menu">
+          <ul>
+            {links.map(l => (
+              <li key={l.to}>
+                <Link to={l.to} className={`mob-link${pathname === l.to ? " active" : ""}`}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <a href="tel:01100690997" className="btn btn-primary mob-cta">
+            <Phone size={16} /> 01100690997
+          </a>
+        </div>
+      )}
+    </>
   );
 }
-
-export default Navbar;

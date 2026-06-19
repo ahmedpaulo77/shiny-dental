@@ -1,118 +1,160 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { ChevronDown, HelpCircle } from "lucide-react";
 import "./FAQ.css";
 
-const categories = [
+const faqs = [
   {
-    label: "عام",
-    icon: "💬",
-    faqs: [
-      { q: "هل العيادة تقبل حجوزات جديدة؟", a: "نعم، نقبل مرضى جدد دائماً. يمكنك حجز موعدك اون لاين أو بالتليفون وسنتواصل معك في أقرب وقت." },
-      { q: "ما هي ساعات عمل العيادة؟", a: "نعمل من السبت إلى الخميس من الساعة ١١ صباحاً حتى ١١ مساءً. الجمعة إجازة أسبوعية." },
-      { q: "هل يمكن حجز استشارة مجانية؟", a: "نعم! نقدم استشارة تشخيصية مجانية للمرضى الجدد. الاستشارة تشمل فحص الأسنان ومناقشة خيارات العلاج." },
-      { q: "أين تقع العيادة بالضبط؟", a: "العيادة في بنها، القليوبية، مصر. يمكنك التواصل معنا للحصول على العنوان التفصيلي والتوجيهات." },
+    cat: "عامة",
+    items: [
+      {
+        q: "كام يوم في الأسبوع العيادة شغالة؟",
+        a: "العيادة مفتوحة ٦ أيام في الأسبوع من السبت للخميس. ساعات العمل من ١٠ صباحاً حتى ١٠ مساءً. يمكنك الحجز مسبقاً عبر النموذج أو الاتصال المباشر.",
+      },
+      {
+        q: "هل الاستشارة الأولى مجانية؟",
+        a: "نعم! الكشف والاستشارة الأولى مجانية تماماً. يشمل ذلك الفحص الشامل وخطة العلاج المقترحة بدون أي التزام منك.",
+      },
+      {
+        q: "كيف أحجز موعداً؟",
+        a: "يمكنك الحجز بثلاث طرق: ١) نموذج الحجز على الموقع ٢) الاتصال على 01100690997 ٣) واتساب على نفس الرقم. سنرد عليك خلال ٢٤ ساعة لتأكيد الموعد.",
+      },
+      {
+        q: "هل يوجد موقف سيارات؟",
+        a: "نعم، يوجد موقف سيارات خاص للعيادة متاح مجاناً لجميع المرضى.",
+      },
     ],
   },
   {
-    label: "الأسعار",
-    icon: "💰",
-    faqs: [
-      { q: "هل الأسعار معقولة؟", a: "نحرص على تقديم أعلى مستوى من الجودة بأسعار تنافسية تناسب مختلف الميزانيات. نوفر أيضاً خطط دفع مرنة لبعض الخدمات." },
-      { q: "هل يوجد أقساط أو تقسيط؟", a: "نعم، نوفر خيارات دفع مرنة لبعض الخدمات الكبيرة كالزراعة والتقويم. تحدث مع فريقنا لمعرفة التفاصيل." },
-      { q: "هل التقييم الأولي مجاني؟", a: "الكشف الأولي والاستشارة التشخيصية مجانية للمرضى الجدد. ستحصل على خطة علاج واضحة بالتكاليف قبل البدء." },
+    cat: "علاجية",
+    items: [
+      {
+        q: "هل علاج العصب مؤلم؟",
+        a: "بفضل التخدير الحديث الذي نستخدمه، علاج العصب لا يسبب أي ألم أثناء الجلسة. قد تشعر بعدم ارتياح بسيط بعد انتهاء التخدير، وهو أمر طبيعي يزول خلال يوم أو يومين.",
+      },
+      {
+        q: "كم تستغرق جلسة تبييض الأسنان؟",
+        a: "جلسة التبييض بالليزر تستغرق من ٦٠ إلى ٩٠ دقيقة. ستلاحظ فرقاً واضحاً في نفس الجلسة، وتستمر النتيجة من سنة إلى ٣ سنوات حسب العناية.",
+      },
+      {
+        q: "هل زراعة الأسنان مؤلمة؟",
+        a: "إجراء الزراعة يتم تحت تخدير كامل، لذا لا تشعر بأي ألم. بعد الجلسة قد يكون هناك بعض التورم والانزعاج لمدة يومين، يتحكم فيهما المسكنات العادية.",
+      },
+      {
+        q: "كم تستغرق قشور البورسلان؟",
+        a: "عادةً تحتاج لزيارتين: الأولى للتحضير وأخذ القياسات (٩٠ دقيقة)، والثانية بعد أسبوع لتركيب القشور النهائية (٩٠ دقيقة). ستخرج بابتسامة هوليوود في أسبوع واحد فقط.",
+      },
     ],
   },
   {
-    label: "الإجراءات",
-    icon: "🦷",
-    faqs: [
-      { q: "هل علاج الأسنان مؤلم؟", a: "مع التقنيات الحديثة وأنواع التخدير المتطورة، معظم إجراءات الأسنان غير مؤلمة الآن. راحة المريض أولويتنا القصوى." },
-      { q: "كم تستغرق جلسة التبييض؟", a: "جلسة تبييض الليزر عادةً تستغرق ٦٠-٩٠ دقيقة وتعطي نتائج فورية. التبييض المنزلي يحتاج ١-٢ أسبوع." },
-      { q: "كم تستغرق زراعة الأسنان؟", a: "الزراعة الفعلية تستغرق ٩٠-١٢٠ دقيقة، لكن فترة اندماج الغرسة مع العظم تستغرق ٣-٦ أشهر قبل تركيب التاج النهائي." },
-      { q: "كم تستغرق قشور البورسلان؟", a: "عملية القشور تتم في جلستين: جلسة التحضير والقياس، ثم جلسة التركيب بعد أسبوع تقريباً." },
-      { q: "هل التقويم الشفاف فعّال مثل المعدني؟", a: "نعم، التقويم الشفاف فعّال تماماً لمعظم الحالات. ميزته الأساسية أنه غير مرئي ومريح. سيحدد الدكتور الخيار المناسب لحالتك." },
-    ],
-  },
-  {
-    label: "ما بعد العلاج",
-    icon: "✅",
-    faqs: [
-      { q: "هل هناك متابعة بعد العلاج؟", a: "نعم، نوفر متابعة مجانية بعد معظم الإجراءات. صحتك ورضاك عن النتائج أهم شيء بالنسبة لنا." },
-      { q: "كيف أعتني بأسناني بعد التبييض؟", a: "بعد التبييض تجنب الأطعمة والمشروبات الملونة لـ٤٨ ساعة، وحافظ على التنظيف المنتظم بالفرشاة والخيط. النتائج تدوم ٢-٣ سنوات مع العناية الجيدة." },
-      { q: "متى أرجع للعيادة بعد الزراعة؟", a: "بعد الزراعة، نحدد لك مواعيد متابعة دورية للتأكد من صحة الغرسة. الزيارة الأولى بعد أسبوع والتقييم الكامل بعد ٣-٦ أشهر." },
+    cat: "الأسعار والضمان",
+    items: [
+      {
+        q: "هل هناك ضمان على العلاجات؟",
+        a: "نعم، جميع علاجاتنا مضمونة. علاج العصب مضمون سنتين، الزراعة مضمونة حسب المواد المستخدمة، وجميع الترميمات مضمونة ضد العيوب الصناعية.",
+      },
+      {
+        q: "هل تقبلون التأمين الصحي؟",
+        a: "حالياً نعمل بالسداد النقدي أو الفيزا. نعمل على إضافة تغطيات تأمينية قريباً. تواصل معنا للاستفسار عن خطط الدفع المتاحة.",
+      },
+      {
+        q: "هل يمكن تقسيط تكلفة العلاج؟",
+        a: "نعم! نوفر خطط تقسيط مريحة لكثير من العلاجات الكبرى مثل الزراعة والتقويم. تواصل مع فريقنا لمعرفة الخيارات المتاحة لحالتك.",
+      },
     ],
   },
 ];
 
-function FAQItem({ q, a }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={`faq-item${open ? " open" : ""}`}>
-      <button className="faq-question" onClick={() => setOpen(!open)}>
-        <span>{q}</span>
-        <svg className="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="18" height="18">
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-      </button>
-      <div className="faq-answer">
-        <p>{a}</p>
-      </div>
-    </div>
-  );
-}
+export default function FAQ() {
+  const [open, setOpen] = useState(null);
 
-function FAQ() {
-  const [ref, visible] = useScrollReveal();
   return (
     <main className="faq-page">
       <div className="page-header">
         <div className="container">
           <span className="eyebrow">الأسئلة الشائعة</span>
-          <h1>كل إجاباتك هنا</h1>
-          <p>أكثر الأسئلة شيوعاً من مرضانا — إجابات واضحة وصريحة</p>
+          <h1>كل أسئلتك — إجاباتها هنا</h1>
+          <p>لو مش لاقي إجابتك، اتصل بنا مباشرة وسنرد عليك فوراً</p>
         </div>
       </div>
 
-      <section className="faq-section">
-        <div className="container faq-layout">
-          {/* Categories */}
-          <div className="faq-content">
-            {categories.map((cat, ci) => (
-              <div key={ci} className="faq-category reveal fade-up" style={{ transitionDelay: `${ci * 80}ms` }}>
+      <section className="faq-main">
+        <div className="container faq-inner">
+
+          {/* Questions */}
+          <div className="faq-list">
+            {faqs.map((cat, ci) => (
+              <div key={ci} className="faq-cat">
                 <div className="faq-cat-head">
-                  <span className="faq-cat-icon">{cat.icon}</span>
-                  <h3>{cat.label}</h3>
+                  <HelpCircle size={18} color="#c9a96e" />
+                  <h3>{cat.cat}</h3>
                 </div>
-                <div className="faq-list">
-                  {cat.faqs.map((item, fi) => (
-                    <FAQItem key={fi} q={item.q} a={item.a} />
-                  ))}
-                </div>
+                {cat.items.map((item, ii) => {
+                  const key = `${ci}-${ii}`;
+                  return (
+                    <div key={key} className={`faq-item${open === key ? " open" : ""}`}>
+                      <button
+                        className="faq-q"
+                        onClick={() => setOpen(open === key ? null : key)}
+                      >
+                        <span>{item.q}</span>
+                        <ChevronDown size={18} className="faq-chev" />
+                      </button>
+                      {open === key && (
+                        <div className="faq-a">
+                          <p>{item.a}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
 
           {/* Sidebar */}
-          <aside className="faq-sidebar">
-            <div className="faq-cta-box reveal fade-up">
-              <div className="fcb-icon">💬</div>
-              <h4>مش لاقي إجابة؟</h4>
-              <p>تواصل معنا مباشرة وسيجيب فريقنا على كل أسئلتك</p>
-              <Link to="/contact" className="btn btn-primary">تواصل معنا</Link>
-              <a href="tel:01100690997" className="btn btn-outline ltr" style={{ marginTop: "10px" }}>01100690997</a>
+          <div className="faq-sidebar">
+            <div className="faq-contact-card">
+              <HelpCircle size={32} color="#c9a96e" strokeWidth={1.5} />
+              <h4>لم تجد إجابتك؟</h4>
+              <p>فريقنا متاح ٦ أيام في الأسبوع للإجابة على جميع استفساراتك</p>
+              <a
+                href="tel:01100690997"
+                className="btn btn-primary"
+                style={{ width:"100%", justifyContent:"center" }}
+              >
+                اتصل بنا الآن
+              </a>
+              <a
+                href="https://wa.me/201100690997"
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-outline"
+                style={{ width:"100%", justifyContent:"center", marginTop:"10px" }}
+              >
+                واتساب
+              </a>
             </div>
-            <div className="faq-booking-box reveal fade-up">
-              <div className="fbb-icon">📅</div>
-              <h4>احجز استشارة مجانية</h4>
-              <p>الاستشارة أفضل طريقة للإجابة عن أسئلتك بشكل شخصي</p>
-              <Link to="/booking" className="btn btn-primary">احجز الآن</Link>
+
+            <div className="faq-hours-card">
+              <h4>مواعيد العيادة</h4>
+              <div className="hours-row">
+                <span>السبت — الخميس</span>
+                <span className="gold">١٠ ص – ١٠ م</span>
+              </div>
+              <div className="hours-row">
+                <span>الجمعة</span>
+                <span className="red">مغلق</span>
+              </div>
             </div>
-          </aside>
+
+            <Link to="/booking" className="btn btn-primary" style={{ width:"100%", justifyContent:"center" }}>
+              احجز موعد الآن
+            </Link>
+          </div>
+
         </div>
       </section>
     </main>
   );
 }
-
-export default FAQ;

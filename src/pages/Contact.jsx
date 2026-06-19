@@ -1,19 +1,59 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Phone, MapPin, Clock, MessageCircle, Send, CheckCircle } from "lucide-react";
 import "./Contact.css";
 
-const initialForm = { name: "", phone: "", email: "", subject: "", message: "" };
+const contactInfo = [
+  {
+    Icon: Phone,
+    title: "تليفون",
+    lines: ["01100690997"],
+    href: "tel:01100690997",
+    linkLabel: "اتصل الآن",
+  },
+  {
+    Icon: MessageCircle,
+    title: "واتساب",
+    lines: ["+20 110 069 0997"],
+    href: "https://wa.me/201100690997",
+    linkLabel: "ابدأ محادثة",
+  },
+  {
+    Icon: MapPin,
+    title: "العنوان",
+    lines: ["بنها — محافظة القليوبية", "مصر"],
+    href: "https://maps.google.com",
+    linkLabel: "افتح الخريطة",
+  },
+  {
+    Icon: Clock,
+    title: "مواعيد العمل",
+    lines: ["السبت – الخميس", "١٠ صباحاً – ١٠ مساءً"],
+    href: null,
+  },
+];
 
-function Contact() {
-  const [form, setForm] = useState(initialForm);
-  const [sent, setSent] = useState(false);
+export default function Contact() {
+  const [form, setForm]   = useState({ name:"", phone:"", message:"" });
+  const [sent, setSent]   = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  function handle(e) {
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  }
 
-  const handleSubmit = (e) => {
+  function submit(e) {
     e.preventDefault();
-    setSent(true);
-  };
+    if (!form.name || !form.phone) return;
+    setLoading(true);
+
+    // WhatsApp redirect with pre-filled message
+    const msg = `مرحباً د. أحمد، أنا ${form.name}%0aرقم تليفوني: ${form.phone}%0a${form.message ? "رسالتي: " + form.message : ""}`;
+    setTimeout(() => {
+      window.open(`https://wa.me/201100690997?text=${msg}`, "_blank");
+      setSent(true);
+      setLoading(false);
+    }, 600);
+  }
 
   return (
     <main className="contact-page">
@@ -21,139 +61,108 @@ function Contact() {
         <div className="container">
           <span className="eyebrow">تواصل معنا</span>
           <h1>نحن هنا لمساعدتك</h1>
-          <p>تواصل معنا بأي طريقة تناسبك وسيرد فريقنا في أقرب وقت</p>
+          <p>تواصل معنا بأي طريقة تناسبك وسنرد عليك في أقرب وقت</p>
         </div>
       </div>
 
-      {/* Info Cards */}
-      <section className="contact-info-section">
-        <div className="container contact-info-grid">
-          {[
-            {
-              icon: "📞",
-              title: "اتصل بنا",
-              lines: ["01100690997"],
-              action: { label: "اتصل الآن", href: "tel:01100690997", ltr: true },
-            },
-            {
-              icon: "💬",
-              title: "واتساب",
-              lines: ["دردشة مباشرة مع فريقنا", "ردود سريعة خلال دقائق"],
-              action: { label: "ابدأ المحادثة", href: "https://wa.me/201100690997?text=أهلاً، عايز أستفسر", ext: true },
-            },
-            {
-              icon: "📍",
-              title: "العنوان",
-              lines: ["بنها، القليوبية، مصر"],
-              action: { label: "افتح الخريطة", href: "https://maps.google.com/?q=بنها+القليوبية", ext: true },
-            },
-            {
-              icon: "🕐",
-              title: "ساعات العمل",
-              lines: ["السبت – الخميس", "١١ صباحاً – ١١ مساءً", "الجمعة: إجازة"],
-            },
-          ].map((card, i) => (
-            <div key={i} className="contact-card">
-              <div className="cc-icon">{card.icon}</div>
-              <h4>{card.title}</h4>
-              {card.lines.map((l, li) => <p key={li}>{l}</p>)}
-              {card.action && (
-                <a
-                  href={card.action.href}
-                  target={card.action.ext ? "_blank" : undefined}
-                  rel={card.action.ext ? "noreferrer" : undefined}
-                  className={`cc-link${card.action.ltr ? " ltr" : ""}`}
-                >
-                  {card.action.label} →
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <section className="contact-main">
+        <div className="container contact-inner">
 
-      {/* Map + Form */}
-      <section className="contact-main-section">
-        <div className="container contact-main-grid">
-          {/* Map placeholder */}
-          <div className="map-wrap reveal slide-right">
-            <div className="map-placeholder">
-              <div className="map-pin">📍</div>
-              <div className="map-label">
-                <strong>Shiny Dental Clinic</strong>
-                <span>بنها، القليوبية، مصر</span>
-              </div>
-              <a
-                href="https://maps.google.com/?q=بنها+القليوبية"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-primary map-btn"
-              >
-                فتح في خرائط جوجل
+          {/* Info cards */}
+          <div className="contact-info">
+            <h2>معلومات التواصل</h2>
+            <div className="info-cards">
+              {contactInfo.map(({ Icon, title, lines, href, linkLabel }, i) => (
+                <div key={i} className="info-card">
+                  <div className="info-icon">
+                    <Icon size={22} color="#c9a96e" strokeWidth={1.8} />
+                  </div>
+                  <div className="info-text">
+                    <h4>{title}</h4>
+                    {lines.map((l, li) => <p key={li}>{l}</p>)}
+                    {href && (
+                      <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="info-link">
+                        {linkLabel} →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Map placeholder */}
+            <div className="map-box">
+              <MapPin size={36} color="#c9a96e" strokeWidth={1.5} />
+              <p>بنها — محافظة القليوبية</p>
+              <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="btn btn-outline" style={{ marginTop:"14px" }}>
+                فتح في Google Maps
               </a>
             </div>
           </div>
 
           {/* Form */}
-          <div className="contact-form-wrap reveal slide-left">
-            <h3>أرسل رسالة</h3>
-            <p>اترك رسالتك وسنرد عليك في أقرب وقت ممكن</p>
+          <div className="contact-form-wrap">
+            <h2>أرسل لنا رسالة</h2>
+            <p className="form-sub">سيتم توجيه رسالتك مباشرةً عبر واتساب</p>
 
             {sent ? (
-              <div className="contact-success">
-                <div className="cs-icon">✓</div>
-                <h4>تم إرسال رسالتك!</h4>
-                <p>سنتواصل معك في أقرب وقت. شكراً لتواصلك معنا.</p>
-                <button className="btn btn-outline" onClick={() => { setSent(false); setForm(initialForm); }}>
+              <div className="sent-msg">
+                <CheckCircle size={48} color="#c9a96e" strokeWidth={1.5} />
+                <h3>تم الإرسال!</h3>
+                <p>شكراً {form.name}، تم فتح واتساب برسالتك. سنرد عليك في أقرب وقت.</p>
+                <button className="btn btn-outline" onClick={() => setSent(false)} style={{ marginTop:"16px" }}>
                   إرسال رسالة أخرى
                 </button>
               </div>
             ) : (
-              <form className="contact-form" onSubmit={handleSubmit}>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>الاسم *</label>
-                    <input type="text" placeholder="اسمك" value={form.name} onChange={(e) => set("name", e.target.value)} required />
-                  </div>
-                  <div className="form-group">
-                    <label>التليفون *</label>
-                    <input type="tel" placeholder="01XXXXXXXXX" className="ltr" value={form.phone} onChange={(e) => set("phone", e.target.value)} required />
-                  </div>
+              <form onSubmit={submit} className="contact-form">
+                <div className="form-group">
+                  <label>الاسم الكريم *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handle}
+                    placeholder="اسمك بالكامل"
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <label>البريد الإلكتروني (اختياري)</label>
-                  <input type="email" placeholder="email@example.com" className="ltr" value={form.email} onChange={(e) => set("email", e.target.value)} />
+                  <label>رقم التليفون *</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handle}
+                    placeholder="01XXXXXXXXX"
+                    required
+                    className="ltr"
+                  />
                 </div>
                 <div className="form-group">
-                  <label>الموضوع *</label>
-                  <input type="text" placeholder="موضوع رسالتك" value={form.subject} onChange={(e) => set("subject", e.target.value)} required />
+                  <label>رسالتك (اختياري)</label>
+                  <textarea
+                    name="message"
+                    value={form.message}
+                    onChange={handle}
+                    placeholder="اكتب استفسارك أو ما تريد معرفته..."
+                    rows={5}
+                  />
                 </div>
-                <div className="form-group">
-                  <label>الرسالة *</label>
-                  <textarea placeholder="اكتب رسالتك هنا..." rows={4} value={form.message} onChange={(e) => set("message", e.target.value)} required />
-                </div>
-                <button type="submit" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>
-                  إرسال الرسالة
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <button type="submit" className="btn btn-primary submit-btn" disabled={loading}>
+                  {loading ? "جاري الإرسال..." : (
+                    <>
+                      <Send size={17} />
+                      إرسال عبر واتساب
+                    </>
+                  )}
                 </button>
               </form>
             )}
           </div>
-        </div>
-      </section>
 
-      {/* Bottom CTA */}
-      <section className="cta-banner">
-        <div className="container cta-inner reveal scale-in">
-          <h2>جاهز تحجز موعدك؟</h2>
-          <p>الاستشارة الأولى مجانية — لا عذر للتأخير</p>
-          <div className="cta-actions">
-            <Link to="/booking" className="btn btn-primary">احجز موعد الآن</Link>
-          </div>
         </div>
       </section>
     </main>
   );
 }
-
-export default Contact;
