@@ -1,59 +1,68 @@
 import { useState } from "react";
+import { ImageIcon, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useScrollReveal } from "../hooks/useScrollReveal";
 import "./Gallery.css";
 
-const categories = ["الكل", "تبييض", "زراعة", "تقويم", "قشور", "علاج العصب"];
+const cats = ["الكل", "تبييض", "قشور", "زراعة", "تقويم", "علاج العصب"];
 
-const cases = [
-  { id: 1, cat: "تبييض", label: "قبل وبعد التبييض", detail: "تبييض ليزر — نتيجة فورية في ٦٠ دقيقة" },
-  { id: 2, cat: "قشور", label: "قشور بورسلان", detail: "٨ قشور بورسلان — ابتسامة هوليوود" },
-  { id: 3, cat: "تقويم", label: "تقويم شفاف", detail: "١٨ شهر تقويم شفاف — نتيجة مذهلة" },
-  { id: 4, cat: "زراعة", label: "زراعة الأسنان", detail: "٣ غرسات تيتانيوم — طبيعي تماماً" },
-  { id: 5, cat: "تبييض", label: "تبييض داخلي", detail: "تبييض سن ميت — إعادة اللون الطبيعي" },
-  { id: 6, cat: "قشور", label: "تصميم الابتسامة", detail: "١٢ قشرة + تبييض — تحول كامل" },
-  { id: 7, cat: "علاج العصب", label: "علاج + تاج", detail: "علاج عصب + تاج زركون عالي الجودة" },
-  { id: 8, cat: "تقويم", label: "تقويم معدني", detail: "٢٤ شهر — إطباق مثالي" },
-  { id: 9, cat: "زراعة", label: "جسر زراعي", detail: "غرستان + جسر — إعادة الوظيفة الكاملة" },
+// ← ضع مسارات صورك هنا (public/photos/اسم-الصورة.jpg)
+const photos = [
+  { id: 1, src: "/photos/whitening-before.jpg", label: "قبل التبييض", cat: "تبييض" },
+  { id: 2, src: "/photos/whitening-after.jpg",  label: "بعد التبييض",  cat: "تبييض" },
+  { id: 3, src: "/photos/veneers-before.jpg",   label: "قبل القشور",   cat: "قشور"  },
+  { id: 4, src: "/photos/veneers-after.jpg",    label: "بعد القشور",   cat: "قشور"  },
+  { id: 5, src: "/photos/implant-before.jpg",   label: "قبل الزراعة",  cat: "زراعة" },
+  { id: 6, src: "/photos/implant-after.jpg",    label: "بعد الزراعة",  cat: "زراعة" },
+  { id: 7, src: "/photos/ortho-before.jpg",     label: "قبل التقويم",  cat: "تقويم" },
+  { id: 8, src: "/photos/ortho-after.jpg",      label: "بعد التقويم",  cat: "تقويم" },
 ];
 
-const colors = {
-  "تبييض": "#2fae6b",
-  "قشور": "#e67e22",
-  "تقويم": "#9b59b6",
-  "زراعة": "#4a9eff",
-  "علاج العصب": "#e74c3c",
-};
-
-function CaseCard({ c }) {
-  const [ref, visible] = useScrollReveal();
+function PhotoCard({ p }) {
   return (
-    <div ref={ref} className={`gallery-card reveal fade-up${visible ? " is-visible" : ""}`}>
-      <div className="gc-visual">
-        <div className="gc-before">
-          <span className="gc-badge">قبل</span>
-          <div className="gc-placeholder" style={{ background: `${colors[c.cat]}15` }}>
-            <span>{c.cat[0]}</span>
-          </div>
-        </div>
-        <div className="gc-divider">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </div>
-        <div className="gc-after">
-          <span className="gc-badge after">بعد</span>
-          <div className="gc-placeholder after-ph" style={{ background: `${colors[c.cat]}30`, borderColor: colors[c.cat] }}>
-            <span style={{ color: colors[c.cat] }}>✦</span>
-          </div>
+    <div style={{
+      borderRadius: "14px",
+      overflow: "hidden",
+      background: "#fff",
+      boxShadow: "0 2px 16px rgba(2,132,199,0.08)",
+      border: "1px solid #e0f2fe",
+      transition: "transform 0.25s ease, box-shadow 0.25s ease",
+    }}
+      onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(2,132,199,0.15)"; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)";   e.currentTarget.style.boxShadow = "0 2px 16px rgba(2,132,199,0.08)"; }}
+    >
+      <div style={{ position: "relative", height: "230px", background: "#f0f9ff" }}>
+        <img
+          src={p.src}
+          alt={p.label}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          onError={e => {
+            e.target.style.display = "none";
+            e.target.nextSibling.style.display = "flex";
+          }}
+        />
+        <div style={{
+          display: "none",
+          height: "230px",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: "10px",
+          background: "#f0f9ff",
+        }}>
+          <ImageIcon size={44} color="#0284c7" strokeWidth={1.5} />
+          <span style={{ color: "#64748b", fontSize: "13px" }}>الصورة قريباً</span>
         </div>
       </div>
-      <div className="gc-info">
-        <span className="gc-cat" style={{ color: colors[c.cat], borderColor: `${colors[c.cat]}40`, background: `${colors[c.cat]}12` }}>
-          {c.cat}
-        </span>
-        <h3>{c.label}</h3>
-        <p>{c.detail}</p>
+      <div style={{ padding: "14px 18px" }}>
+        <span style={{
+          fontSize: "12px",
+          color: "#0284c7",
+          fontWeight: 700,
+          background: "#e0f2fe",
+          padding: "3px 10px",
+          borderRadius: "50px",
+        }}>{p.cat}</span>
+        <p style={{ margin: "8px 0 0", fontWeight: 700, fontSize: "15px", color: "#0c1a2e" }}>{p.label}</p>
       </div>
     </div>
   );
@@ -61,7 +70,7 @@ function CaseCard({ c }) {
 
 function Gallery() {
   const [active, setActive] = useState("الكل");
-  const filtered = active === "الكل" ? cases : cases.filter((c) => c.cat === active);
+  const filtered = active === "الكل" ? photos : photos.filter(p => p.cat === active);
 
   return (
     <main className="gallery-page">
@@ -74,36 +83,56 @@ function Gallery() {
       </div>
 
       {/* Filter */}
-      <div className="gallery-filter">
+      <div style={{ padding: "32px 0 0", borderBottom: "1px solid #e0f2fe" }}>
         <div className="container">
-          <div className="gf-row">
-            {categories.map((cat) => (
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", paddingBottom: "20px" }}>
+            <Filter size={18} color="#64748b" />
+            {cats.map(c => (
               <button
-                key={cat}
-                className={`gf-btn${active === cat ? " active" : ""}`}
-                onClick={() => setActive(cat)}
-              >
-                {cat}
-              </button>
+                key={c}
+                onClick={() => setActive(c)}
+                style={{
+                  padding: "8px 20px",
+                  borderRadius: "50px",
+                  border: active === c ? "none" : "1.5px solid #e0f2fe",
+                  background: active === c ? "#0284c7" : "#fff",
+                  color: active === c ? "#fff" : "#64748b",
+                  fontFamily: "Cairo, sans-serif",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+              >{c}</button>
             ))}
           </div>
         </div>
       </div>
 
       {/* Grid */}
-      <section className="gallery-grid-section">
+      <section style={{ padding: "60px 0" }}>
         <div className="container">
-          <div className="gallery-grid">
-            {filtered.map((c) => <CaseCard key={c.id} c={c} />)}
-          </div>
+          {filtered.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "60px", color: "#64748b" }}>
+              <ImageIcon size={48} color="#cbd5e1" style={{ margin: "0 auto 16px" }} />
+              <p>مفيش صور في هذا التصنيف حالياً</p>
+            </div>
+          ) : (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "22px",
+            }}>
+              {filtered.map(p => <PhotoCard key={p.id} p={p} />)}
+            </div>
+          )}
         </div>
       </section>
 
       {/* Note */}
-      <div className="gallery-note">
+      <div style={{ background: "#f0f9ff", padding: "18px 0", borderTop: "1px solid #e0f2fe" }}>
         <div className="container">
-          <p>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p style={{ color: "#64748b", fontSize: "14px", textAlign: "center" }}>
             جميع الصور لمرضى حقيقيين تم نشرها بموافقتهم. النتائج تختلف من حالة لأخرى.
           </p>
         </div>
