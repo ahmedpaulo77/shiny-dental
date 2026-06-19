@@ -4,13 +4,13 @@ import { Phone, Menu, X, Stethoscope } from "lucide-react";
 import "./Navbar.css";
 
 const links = [
-  { to: "/",             label: "الرئيسية" },
-  { to: "/about",       label: "من نحن" },
-  { to: "/services",    label: "الخدمات" },
-  { to: "/gallery",     label: "معرض الأعمال" },
-  { to: "/testimonials",label: "آراء المرضى" },
-  { to: "/faq",         label: "الأسئلة الشائعة" },
-  { to: "/contact",     label: "تواصل معنا" },
+  { to: "/", label: "الرئيسية" },
+  { to: "/about", label: "من نحن" },
+  { to: "/services", label: "الخدمات" },
+  { to: "/gallery", label: "معرض الأعمال" },
+  { to: "/testimonials", label: "آراء المرضى" },
+  { to: "/faq", label: "الأسئلة الشائعة" },
+  { to: "/contact", label: "تواصل معنا" },
 ];
 
 export default function Navbar() {
@@ -34,11 +34,11 @@ export default function Navbar() {
     <>
       <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
         <div className="nav-inner container">
-
           {/* Logo */}
           <Link to="/" className="nav-logo">
             <div className="logo-icon">
-              <Stethoscope size={20} color="#07090f" strokeWidth={2.5} />
+              {/* تم تعديل اللون هنا إلى الأبيض ليناسب الخلفية الذهبية الملكية للبرواز */}
+              <Stethoscope size={20} color="#ffffff" strokeWidth={2.5} />
             </div>
             <div>
               <div className="logo-name">Shiny Dental</div>
@@ -48,9 +48,12 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <ul className="nav-links">
-            {links.map(l => (
+            {links.map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className={`nav-link${pathname === l.to ? " active" : ""}`}>
+                <Link
+                  to={l.to}
+                  className={`nav-link${pathname === l.to ? " active" : ""}`}
+                >
                   {l.label}
                 </Link>
               </li>
@@ -64,10 +67,13 @@ export default function Navbar() {
           </a>
 
           {/* Hamburger */}
-          <button className="nav-toggle" onClick={() => setOpen(o => !o)} aria-label="القائمة">
+          <button
+            className="nav-toggle"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="القائمة"
+          >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
-
         </div>
       </nav>
 
@@ -75,9 +81,12 @@ export default function Navbar() {
       {open && (
         <div className="mobile-menu">
           <ul>
-            {links.map(l => (
+            {links.map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className={`mob-link${pathname === l.to ? " active" : ""}`}>
+                <Link
+                  to={l.to}
+                  className={`mob-link${pathname === l.to ? " active" : ""}`}
+                >
                   {l.label}
                 </Link>
               </li>

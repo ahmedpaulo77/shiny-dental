@@ -1,133 +1,317 @@
-.about-page { padding-top: 0; }
+/* تنسيقات عامة للصفحة الفاتحة الملكية */
+.about-page { 
+  padding-top: 80px; 
+  background-color: #ffffff;
+}
 
-/* Doctor Section */
-.doctor-section { padding: 90px 0; background: var(--bg-dark); }
+/* هيدر الصفحة العلوي */
+.page-header {
+  background: linear-gradient(135deg, #fdfbf7 0%, #f5eedf 100%);
+  padding: 60px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+.page-header h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--text-main);
+  font-weight: 900;
+  margin: 10px 0;
+}
+.page-header p {
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* قسم الطبيب */
+.doctor-section { 
+  padding: 80px 0; 
+  background: #ffffff; 
+}
 .doctor-inner {
   display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 70px;
+  grid-template-columns: 380px 1fr;
+  gap: 50px;
   align-items: center;
 }
-.doctor-photo-wrap { display: flex; flex-direction: column; gap: 16px; }
+.doctor-photo-wrap { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px; 
+}
 .doctor-photo {
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(201,169,110,0.15);
-  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  border: 6px solid #ffffff;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
   aspect-ratio: 4/5;
+  background: var(--bg-section);
 }
-.photo-placeholder {
-  width: 100%; height: 100%;
-  background: linear-gradient(145deg, #0e1530, #0b0f1a);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 14px;
-  color: var(--text-muted); font-size: 14px;
+.doctor-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.doctor-badge-row { display: flex; gap: 12px; }
+
+.doctor-badge-row { 
+  display: flex; 
+  gap: 12px; 
+}
 .doc-badge {
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 13px;
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-main);
+  box-shadow: var(--shadow-sm);
 }
 
-.doctor-text { display: flex; flex-direction: column; gap: 16px; }
-.doctor-text h2 { font-size: clamp(24px, 3.5vw, 38px); font-weight: 900; line-height: 1.3; }
-.doctor-text > p { font-size: 15px; color: var(--text-muted); line-height: 1.9; }
-.doctor-points { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.doctor-text { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
+}
+.doctor-text h2 { 
+  font-size: clamp(24px, 3.5vw, 36px); 
+  font-weight: 900; 
+  line-height: 1.3; 
+  color: var(--text-main);
+}
+.doctor-text > p { 
+  font-size: 16px; 
+  color: var(--text-muted); 
+  line-height: 1.85; 
+}
+.doctor-points { 
+  list-style: none; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  margin-top: 8px; 
+}
 .doctor-points li {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 15px; color: rgba(238,242,255,0.85); font-weight: 600;
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  font-size: 15px; 
+  color: var(--text-main); 
+  font-weight: 700;
 }
 
-/* Credentials */
-.credentials-section { padding: 90px 0; background: var(--bg-section); }
+/* قسم الشهادات والمؤهلات */
+.credentials-section { 
+  padding: 80px 0; 
+  background: var(--bg-section); 
+}
+.section-head {
+  text-align: center;
+  margin-bottom: 45px;
+}
+.section-head h2 {
+  font-size: clamp(22px, 3vw, 32px);
+  color: var(--text-main);
+  font-weight: 900;
+  margin-top: 5px;
+}
 .cred-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
 }
 .cred-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 26px;
+  border-radius: 16px;
+  padding: 24px;
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 .cred-card:hover {
-  border-color: rgba(201,169,110,0.25);
-  transform: translateY(-3px);
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-gold);
 }
 .cred-icon {
-  width: 46px; height: 46px;
-  border-radius: 11px;
-  background: rgba(201,169,110,0.08);
+  width: 48px; 
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-light);
   border: 1px solid rgba(201,169,110,0.15);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
   flex-shrink: 0;
 }
-.cred-card h4 { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
-.cred-card p  { font-size: 13px; color: var(--text-muted); }
+.cred-card h4 { 
+  font-size: 15px; 
+  font-weight: 800; 
+  color: var(--text-main); 
+  margin-bottom: 4px; 
+}
+.cred-card p { 
+  font-size: 13px; 
+  color: var(--text-muted); 
+  font-weight: 600;
+}
 
-/* Clinic Section */
-.clinic-section { padding: 90px 0; background: var(--bg-dark); }
+/* قسم العيادة والخريطة */
+.clinic-section { 
+  padding: 80px 0; 
+  background: #ffffff; 
+}
 .clinic-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 50px;
   align-items: start;
 }
-.clinic-text { display: flex; flex-direction: column; gap: 16px; }
-.clinic-text h2 { font-size: clamp(22px, 3vw, 36px); font-weight: 900; line-height: 1.3; }
-.clinic-text > p { color: var(--text-muted); font-size: 15px; line-height: 1.85; }
-.clinic-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.clinic-text { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
+}
+.clinic-text h2 { 
+  font-size: clamp(24px, 3vw, 34px); 
+  font-weight: 900; 
+  line-height: 1.3; 
+  color: var(--text-main);
+}
+.clinic-text > p { 
+  color: var(--text-muted); 
+  font-size: 16px; 
+  line-height: 1.85; 
+}
+.clinic-list { 
+  list-style: none; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  margin-top: 8px; 
+}
 .clinic-list li {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 14px; color: rgba(238,242,255,0.8); font-weight: 600;
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  font-size: 15px; 
+  color: var(--text-main); 
+  font-weight: 700;
 }
 
-.map-placeholder {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 40px;
-  text-align: center;
-  display: flex; flex-direction: column; align-items: center;
-  gap: 8px;
+.clinic-map {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.map-placeholder h4 { font-size: 17px; font-weight: 800; color: var(--text-main); margin-top: 8px; }
-.map-placeholder p  { color: var(--text-muted); font-size: 14px; }
+.map-placeholder {
+  background: var(--bg-section);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 40px 24px;
+  text-align: center;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.map-placeholder h4 { 
+  font-size: 18px; 
+  font-weight: 800; 
+  color: var(--text-main); 
+}
+.map-placeholder p { 
+  color: var(--text-muted); 
+  font-size: 14px; 
+}
 
 .contact-quick {
-  display: flex; flex-direction: column; gap: 12px; margin-top: 16px;
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
 }
 .cq-item {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px 20px;
-  transition: all 0.25s;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
 }
-.cq-item:hover { border-color: rgba(201,169,110,0.25); }
-.cq-label { display: block; font-size: 12px; color: var(--text-muted); }
-.cq-val   { display: block; font-size: 15px; font-weight: 800; color: var(--text-main); }
+.cq-item:hover { 
+  border-color: var(--primary); 
+  transform: translateY(-2px);
+}
+.cq-label { 
+  display: block; 
+  font-size: 12px; 
+  color: var(--text-muted); 
+  font-weight: 600;
+}
+.cq-val { 
+  display: block; 
+  font-size: 16px; 
+  font-weight: 800; 
+  color: var(--text-main); 
+}
 
+/* بنر الحجز السفلي الفخم */
+.about-cta-banner {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #fdfbf7 0%, #f5eedf 100%);
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+}
+.about-cta-banner h2 {
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 900;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+.about-cta-banner p {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+.cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cta-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* شاشات الموبايل المتجاوبة */
 @media (max-width: 900px) {
-  .doctor-inner { grid-template-columns: 1fr; }
-  .doctor-photo { max-width: 340px; margin: 0 auto; }
-  .clinic-inner { grid-template-columns: 1fr; }
+  .doctor-inner, .clinic-inner { 
+    grid-template-columns: 1fr; 
+    gap: 35px;
+  }
+  .doctor-photo { 
+    max-width: 320px; 
+    margin: 0 auto; 
+  }
+  .cta-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
 }

@@ -6,13 +6,15 @@
   transition: all 0.4s ease;
   background: transparent;
 }
+
+/* التنسيق الجديد عند النزول بالسكرول - خلفية بيضاء ناعمة ببلور احترافي */
 .navbar.scrolled {
-  background: rgba(7, 9, 15, 0.92);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(201,169,110,0.12);
+  border-bottom: 1px solid var(--border-color);
   padding: 14px 0;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-inner {
@@ -37,18 +39,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(201,169,110,0.3);
+  box-shadow: 0 4px 16px rgba(201,169,110,0.2);
   flex-shrink: 0;
 }
 .logo-name {
   font-size: 16px;
   font-weight: 900;
-  color: #fff;
+  color: var(--text-main); /* تعديل للون الداكن الفخم */
   line-height: 1.2;
 }
 .logo-sub {
   font-size: 11px;
-  color: #c9a96e;
+  color: var(--primary-dark);
   font-weight: 600;
 }
 
@@ -65,28 +67,28 @@
   padding: 7px 14px;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
-  color: rgba(238,242,255,0.75);
+  font-weight: 700;
+  color: var(--text-muted); /* تعديل للرمادي المريح للعين */
   text-decoration: none;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 .nav-link:hover,
 .nav-link.active {
-  color: #c9a96e;
-  background: rgba(201,169,110,0.08);
+  color: var(--primary-dark);
+  background: var(--primary-light); /* خلفية ذهبية خفيفة جداً عند الاختيار */
 }
 
 /* ── CTA Button ── */
 .nav-cta {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 10px 20px;
+  gap: 8px;
+  padding: 10px 24px;
   border-radius: 50px;
   background: linear-gradient(135deg, #c9a96e, #a07840);
-  color: #07090f;
-  font-weight: 800;
+  color: #ffffff; /* كتابة بيضاء فخمة فوق الذهبي */
+  font-weight: 700;
   font-size: 14px;
   font-family: 'Cairo', sans-serif;
   white-space: nowrap;
@@ -94,19 +96,19 @@
   text-decoration: none;
   transition: all 0.3s ease;
   direction: ltr;
-  box-shadow: 0 4px 16px rgba(201,169,110,0.3);
+  box-shadow: 0 4px 16px rgba(201,169,110,0.2);
 }
 .nav-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201,169,110,0.4);
+  box-shadow: 0 8px 24px rgba(201,169,110,0.35);
 }
 
-/* ── Hamburger ── */
+/* ── Hamburger Menu Toggle ── */
 .nav-toggle {
   display: none;
   background: none;
   border: none;
-  color: #eef2ff;
+  color: var(--text-main); /* لون داكن واضح للموبايل */
   cursor: pointer;
   padding: 4px;
   margin-right: auto;
@@ -119,7 +121,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(7, 9, 15, 0.97);
+  background: rgba(255, 255, 255, 0.98); /* قائمة موبايل بيضاء فخمة */
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   z-index: 998;
@@ -128,7 +130,7 @@
   flex-direction: column;
   gap: 8px;
   overflow-y: auto;
-  border-top: 1px solid rgba(201,169,110,0.1);
+  border-top: 1px solid var(--border-color);
 }
 .mobile-menu ul {
   list-style: none;
@@ -142,17 +144,17 @@
   display: block;
   padding: 16px 20px;
   border-radius: 12px;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
-  color: rgba(238,242,255,0.6);
+  color: var(--text-muted);
   text-decoration: none;
   transition: all 0.2s ease;
   border: 1px solid transparent;
 }
 .mob-link:hover,
 .mob-link.active {
-  color: #c9a96e;
-  background: rgba(201,169,110,0.07);
+  color: var(--primary-dark);
+  background: var(--primary-light);
   border-color: rgba(201,169,110,0.15);
 }
 .mob-cta {
