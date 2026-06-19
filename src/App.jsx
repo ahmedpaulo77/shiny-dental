@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom"; // شيلنا الـ HashRouter من هنا
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
@@ -12,9 +13,43 @@ import Booking from "./pages/Booking";
 import Contact from "./pages/Contact";
 import "./App.css";
 
+function ScrollReveal() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const timer = setTimeout(() => {
+      document.querySelectorAll(".reveal:not(.is-visible)").forEach(el => {
+        observer.observe(el);
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
-    <BrowserRouter>
+    <> {/* استخدمنا الـ Fragment الفاضي ده بدل الـ HashRouter الزيادة */}
+      <ScrollReveal />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,7 +63,7 @@ function App() {
       </Routes>
       <Footer />
       <WhatsAppButton />
-    </BrowserRouter>
+    </>
   );
 }
 
